@@ -7,9 +7,21 @@
 <style>
   html,body{margin:0;height:100%;background:#000;overflow:hidden}
   video{position:fixed;inset:0;width:100vw;height:100vh;object-fit:contain;background:#000}
+  #sound{position:fixed;right:24px;bottom:24px;z-index:2;font:500 14px/1 -apple-system,system-ui,sans-serif;
+    color:#f5a35c;background:rgba(0,0,0,.55);border:1px solid rgba(245,163,92,.6);border-radius:999px;
+    padding:10px 16px;cursor:pointer;letter-spacing:.04em}
+  #sound:hover{background:rgba(245,163,92,.15)}
 </style>
 </head>
 <body>
-<video src="forward-labs-launch.mp4" autoplay muted playsinline></video>
+<video id="v" src="forward-labs-launch.mp4" autoplay muted playsinline></video>
+<button id="sound" aria-label="Play with sound">&#128266; Play with sound</button>
+<script>
+  const v=document.getElementById('v'), b=document.getElementById('sound');
+  // Try sound first; browsers block it without a click, so fall back to muted.
+  v.muted=false;
+  v.play().then(()=>{b.remove();}).catch(()=>{v.muted=true;v.play();});
+  b.addEventListener('click',()=>{v.muted=false;v.currentTime=0;v.play();b.remove();});
+</script>
 </body>
 </html>
